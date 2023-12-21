@@ -1,7 +1,10 @@
 function telephoneCheck(str) {
 
-  if (str.match(/^[^0-9\s()]/)) {
-    return false;
+  let parts = str.split(/ |-/)
+  for (let i = 0 ; i < parts.length ; i++){
+    if(parts[i] != '1' && parts[i].length < 3 ){
+      return false
+    }
   }
 
   if (str.match(/[^0-9-()\s]/)) {
@@ -20,7 +23,6 @@ function telephoneCheck(str) {
 
   let regex = /-| /g
   let cleanPhoneNum = str.replace(regex, "")
-  console.log(cleanPhoneNum);
 
   if (cleanPhoneNum.indexOf("(") < cleanPhoneNum.indexOf(")")) {
     cleanPhoneNum = cleanPhoneNum.replace(/\(|\)/g, "")
