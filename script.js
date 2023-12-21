@@ -1,39 +1,82 @@
-function telephoneCheck(str) {
+let input = document.querySelector(".input");
+let button = document.querySelector(".check-button");
+let result = document.querySelector(".result");
 
-  let parts = str.split(/ |-/)
-  for (let i = 0 ; i < parts.length ; i++){
-    if(parts[i] != '1' && parts[i].length < 3 ){
-      return false
-    }
-  }
+function telephoneCheck() {
+	let value = input.value;
 
-  if (str.match(/[^0-9-()\s]/)) {
-    return false;
-  }
+	if (value === "") {
+		result.classList.remove("opacity-0");
 
-  if (str[0] === '-') return false
+		result.innerHTML = `Please enter a phone number to check.`;
+		result.classList.add("opacity-100");
+    return;
+	}
+	let parts = value.split(/ |-/);
+	for (let i = 0; i < parts.length; i++) {
+		if (parts[i] != "1" && parts[i].length < 3) {
+			result.classList.remove("opacity-0");
 
-  if (str.indexOf("(") == -1 && str.indexOf(")") > 0) {
-    return false
-  }
+			result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is not valid.`;
+			result.classList.add("opacity-100");
+		}
+	}
 
-  if (str.indexOf(")") - str.indexOf("(") >= 5) {
-    return false
-  }
+	if (value.match(/[^0-9-()\s]/)) {
+		result.classList.remove("opacity-0");
 
-  let regex = /-| /g
-  let cleanPhoneNum = str.replace(regex, "")
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is not valid.`;
+		result.classList.add("opacity-100");
+	}
 
-  if (cleanPhoneNum.indexOf("(") < cleanPhoneNum.indexOf(")")) {
-    cleanPhoneNum = cleanPhoneNum.replace(/\(|\)/g, "")
-  }
+	if (value[0] === "-") {
+		result.classList.remove("opacity-0");
 
-  if (cleanPhoneNum.length == 10) {
-    return true
-  } else if (cleanPhoneNum.length == 11 && cleanPhoneNum[0] === '1') {
-    return true
-  } else {return false}
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is not valid.`;
+		result.classList.add("opacity-100");
+	}
+
+	if (value.indexOf("(") == -1 && value.indexOf(")") > 0) {
+		result.classList.remove("opacity-0");
+
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is not valid.`;
+		result.classList.add("opacity-100");
+	}
+
+	if (value.indexOf(")") - value.indexOf("(") >= 5) {
+		result.classList.remove("opacity-0");
+
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is not valid.`;
+		result.classList.add("opacity-100");
+	}
+
+	let regex = /-| /g;
+	let cleanPhoneNum = value.replace(regex, "");
+
+	if (cleanPhoneNum.indexOf("(") < cleanPhoneNum.indexOf(")")) {
+		cleanPhoneNum = cleanPhoneNum.replace(/\(|\)/g, "");
+	}
+
+	if (cleanPhoneNum.length == 10) {
+		result.classList.remove("opacity-0");
+
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is valid.`;
+		result.classList.add("opacity-100");
+	} else if (cleanPhoneNum.length == 11 && cleanPhoneNum[0] === "1") {
+		result.classList.remove("opacity-0");
+
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is valid.`;
+		result.classList.add("opacity-100");
+	} else {
+		result.classList.remove("opacity-0");
+		result.innerHTML = `The number <span class = "font-bold text-green-800">${value}</span> is not valid.`;
+		result.classList.add("opacity-100");
+	}
 }
 
-let result = telephoneCheck("55 55-55-555-5");
-console.log(result);
+button.addEventListener("click", telephoneCheck);
+input.addEventListener("keypress", function (event) {
+	if (event.key === "Enter") {
+		telephoneCheck();
+	}
+});
